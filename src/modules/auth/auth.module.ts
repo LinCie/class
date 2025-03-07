@@ -17,7 +17,10 @@ const authModule = new Elysia({ prefix: "/api/auth" })
 			const user = await authService.createUser(body);
 			return jwt.sign({ sub: user.username });
 		},
-		{ body: t.Object({ username: t.String(), password: t.String() }) }
+		{
+			body: t.Object({ username: t.String(), password: t.String() }),
+			detail: { tags: ["Auth"] },
+		}
 	)
 	.post(
 		"/login",
@@ -27,6 +30,7 @@ const authModule = new Elysia({ prefix: "/api/auth" })
 		},
 		{
 			body: t.Object({ username: t.String(), password: t.String() }),
+			detail: { tags: ["Auth"] },
 		}
 	);
 

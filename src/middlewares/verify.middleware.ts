@@ -20,7 +20,6 @@ const verifyMiddleware = new Elysia()
 				return error(401);
 			}
 
-			console.log(token);
 			const user = await usersService.getUserById(Number(token.sub));
 			if (!user) {
 				return error(404);

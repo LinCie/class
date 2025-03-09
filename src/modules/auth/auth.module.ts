@@ -15,7 +15,7 @@ const authModule = new Elysia({ prefix: "/api/auth" })
 		"/register",
 		async ({ authService, body, jwt }) => {
 			const user = await authService.createUser(body);
-			return jwt.sign({ sub: user.username });
+			return jwt.sign({ sub: String(user.id) });
 		},
 		{
 			body: t.Object({ username: t.String(), password: t.String() }),
@@ -26,7 +26,7 @@ const authModule = new Elysia({ prefix: "/api/auth" })
 		"/login",
 		async ({ authService, body, jwt }) => {
 			const user = await authService.verifyUser(body);
-			return jwt.sign({ sub: user.username });
+			return jwt.sign({ sub: String(user.id) });
 		},
 		{
 			body: t.Object({ username: t.String(), password: t.String() }),

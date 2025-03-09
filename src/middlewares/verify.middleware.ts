@@ -12,13 +12,15 @@ const verifyMiddleware = new Elysia()
 	)
 	.decorate("usersService", new UsersService())
 	.resolve(
-		{ as: "global" },
+		{ as: "scoped" },
 		async ({ jwt, error, headers: { authorization }, usersService }) => {
-			const token = await jwt.verify(authorization);
+			const bearer = authorization?.split(" ")[1];
+			const token = await jwt.verify(bearer);
 			if (!token) {
 				return error(401);
 			}
 
+			console.log(token);
 			const user = await usersService.getUserById(Number(token.sub));
 			if (!user) {
 				return error(404);

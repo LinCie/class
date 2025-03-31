@@ -1,5 +1,6 @@
-import { prisma } from "@/database/prisma";
+import { NotFoundError } from "elysia";
 import { User } from "@prisma/client";
+import { prisma } from "@/database/prisma";
 
 class ClassService {
 	public async createClass(user: User, name: string) {
@@ -93,7 +94,7 @@ class ClassService {
 			where: { id, teacher: { userId: user.id } },
 		});
 		if (!classData) {
-			throw new Error("Class not found or you do not have permission");
+			throw new NotFoundError("Class not found or you do not have permission");
 		}
 
 		await prisma.class.delete({ where: { id } });

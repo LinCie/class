@@ -1,6 +1,7 @@
-import { Elysia, t } from "elysia";
+import { Elysia, InternalServerError, t } from "elysia";
+import { verifyMiddleware } from "@/middlewares";
 import { ClassService } from "./classes.service";
-import { verifyMiddleware } from "@/middlewares/verify.middleware";
+import { logger } from "@/utilities";
 
 const classModule = new Elysia({ prefix: "/api/classes" })
 	.use(verifyMiddleware)
@@ -8,15 +9,22 @@ const classModule = new Elysia({ prefix: "/api/classes" })
 	.get(
 		"/",
 		({ classService, user, query }) => {
-			switch (query.as) {
-				case "student":
-					return classService.getClassesAsStudent(user);
+			try {
+				switch (query.as) {
+					case "student":
+						return classService.getClassesAsStudent(user);
 
-				case "teacher":
-					return classService.getClassesAsTeacher(user);
+					case "teacher":
+						return classService.getClassesAsTeacher(user);
 
-				default:
-					return classService.getClasses();
+					default:
+						return classService.getClasses();
+				}
+			} catch (error) {
+				logger.error(error);
+				throw new InternalServerError(
+					"There is an error while trying to fetch classes"
+				);
 			}
 		},
 		{

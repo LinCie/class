@@ -1,6 +1,6 @@
 import Elysia from "elysia";
 import { jwt } from "@elysiajs/jwt";
-import { JWTSECRET } from "@/config/env";
+import { JWTSECRET } from "@/config";
 import { UsersService } from "@/modules/users/users.service";
 
 const verifyMiddleware = new Elysia()

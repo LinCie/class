@@ -1,6 +1,6 @@
 import { Elysia, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
-import { JWTSECRET } from "@/config/env";
+import { JWTSECRET } from "@/config";
 import { AuthService } from "./auth.service";
 
 const authModule = new Elysia({ prefix: "/api/auth" })

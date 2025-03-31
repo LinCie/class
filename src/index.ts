@@ -1,11 +1,12 @@
 import { Elysia } from "elysia";
 import { swagger } from "@elysiajs/swagger";
-import { logger } from "@bogeychan/elysia-logger";
-import { authModule } from "./modules/auth/auth.module";
-import { PORT } from "./config/env";
-import { classModule } from "./modules/classes/classes.module";
+import { authModule, classModule } from "./modules";
+import { PORT } from "./config";
+import { logger } from "./utilities";
+import { errorMiddleware } from "./middlewares";
 
 const app = new Elysia()
+	.use(errorMiddleware)
 	.use(
 		swagger({
 			documentation: {
@@ -13,17 +14,12 @@ const app = new Elysia()
 			},
 		})
 	)
-	.use(
-		logger({
-			level: "info",
-		})
-	)
 	.get("/", () => "Hello Elysia")
 	.use(authModule)
 	.use(classModule)
 	.listen(PORT);
 
-console.log(
+logger.info(
 	`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
 );
 

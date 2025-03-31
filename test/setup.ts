@@ -3,9 +3,10 @@ import { afterAll, beforeAll } from "bun:test";
 import { treaty } from "@elysiajs/eden";
 import { PrismaClient } from "@prisma/client";
 import type { App } from "@/index";
+import { PORT } from "@/config";
 
 export const prisma = new PrismaClient();
-export const api = treaty<App>("localhost:8080").api;
+export const api = treaty<App>(`localhost:${PORT}`).api;
 
 export async function getTestUser() {
 	const token = await api.auth.login.post({

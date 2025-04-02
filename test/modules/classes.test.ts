@@ -22,4 +22,12 @@ describe("Classes", () => {
 
 		expect(createdClass).toBeDefined();
 	});
+
+	it("creates a teacher", async () => {
+		const teacher = await prisma.teacher.findFirst({
+			where: { user: { username: "testuser" } },
+		});
+
+		expect(teacher).toBeDefined();
+	});
 });

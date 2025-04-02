@@ -3,10 +3,10 @@ import { swagger } from "@elysiajs/swagger";
 import { authModule, classModule } from "./modules";
 import { PORT } from "./config";
 import { logger } from "./utilities";
-import { errorMiddleware } from "./middlewares";
+import { errorMiddleware, loggerMiddleware } from "./middlewares";
 
 const app = new Elysia()
-	.use(errorMiddleware)
+	.use(loggerMiddleware)
 	.use(
 		swagger({
 			documentation: {
@@ -17,6 +17,7 @@ const app = new Elysia()
 	.get("/", () => "Hello Elysia")
 	.use(authModule)
 	.use(classModule)
+	.use(errorMiddleware)
 	.listen(PORT);
 
 logger.info(

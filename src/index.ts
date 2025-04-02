@@ -7,6 +7,7 @@ import { errorMiddleware, loggerMiddleware } from "./middlewares";
 
 const app = new Elysia()
 	.use(loggerMiddleware)
+	.use(errorMiddleware)
 	.use(
 		swagger({
 			documentation: {
@@ -17,7 +18,6 @@ const app = new Elysia()
 	.get("/", () => "Hello Elysia")
 	.use(authModule)
 	.use(classModule)
-	.use(errorMiddleware)
 	.listen(PORT);
 
 logger.info(

@@ -6,6 +6,7 @@ import {
 	PrismaClientUnknownRequestError,
 	PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
+import { logger } from "@/utilities";
 
 const errorMiddleware = new Elysia()
 	.error({
@@ -16,6 +17,8 @@ const errorMiddleware = new Elysia()
 		PrismaClientRustPanicError,
 	})
 	.onError({ as: "scoped" }, ({ error, code }) => {
+		logger.error(error);
+
 		switch (code) {
 			case "NOT_FOUND":
 				return new Response(error.message, { status: 404 });

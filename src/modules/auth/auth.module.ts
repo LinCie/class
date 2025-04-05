@@ -13,8 +13,9 @@ const authModule = new Elysia({ prefix: "/api/auth" })
 	.decorate("authService", new AuthService())
 	.post(
 		"/register",
-		async ({ authService, body, jwt }) => {
+		async ({ authService, body, jwt, set }) => {
 			const user = await authService.createUser(body);
+			set.status = 201;
 			return jwt.sign({ sub: String(user.id) });
 		},
 		{

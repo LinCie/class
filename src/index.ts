@@ -24,4 +24,4 @@ logger.info(
 	`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
 );
 
-export type App = typeof app;
+export { app };

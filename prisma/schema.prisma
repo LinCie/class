@@ -20,6 +20,7 @@ model Teacher {
   id      Int     @id @default(autoincrement())
   user    User    @relation(fields: [userId], references: [id])
   userId  Int     @unique
+  faculty String?
   classes Class[]
 }
 
@@ -27,6 +28,10 @@ model Student {
   id      Int     @id @default(autoincrement())
   user    User    @relation(fields: [userId], references: [id])
   userId  Int     @unique
+  number  Int
+  class   String?
+  major   String?
+  faculty String?
   classes Class[]
 }
 
